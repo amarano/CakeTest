@@ -8,6 +8,11 @@ var configuration = Argument("configuration", "Debug");
 var outputDirectory = string.Format("./CakeTest/bin/{0}/", configuration);
 var program = File(System.IO.Path.Combine(outputDirectory, "CakeTest.exe").ToString());
 
+Func<IFileSystemInfo, bool> exclude_node_modules =  fileSystemInfo=>!fileSystemInfo.Path.FullPath.EndsWith(
+                "node_modules",
+                StringComparison.OrdinalIgnoreCase);
+
+
 Task("Default")
     .IsDependentOn("Test");
 
@@ -22,7 +27,16 @@ Task("CopyStaticFiles")
         if (!System.IO.Directory.Exists(wwwroot)){
             System.IO.Directory.CreateDirectory(wwwroot);
         }
-        CopyFiles(GetFiles("./CakeTest/wwwroot/site/**/*.*"), wwwroot);
+        CopyFiles(GetFiles("./CakeTest/wwwroot/site/**/*.*"), wwwroot, true);
+    });
+
+Task("CopyNodeModules")
+    .Does(() => {
+        var nodeModulesPath = System.IO.Path.Combine(outputDirectory, "wwwroot", "node_modules");
+        if (!System.IO.Directory.Exists(nodeModulesPath)){
+            System.IO.Directory.CreateDirectory(nodeModulesPath);
+        }
+        CopyFiles(GetFiles("./CakeTest/wwwroot/node_modules/**/*.*"), nodeModulesPath, true);
     });
 
 Task("Run")
@@ -61,7 +75,7 @@ Task("Clean")
     CleanDirectories(string.Format("./**/obj/{0}",
       configuration));
     CleanDirectories(string.Format("./**/bin/{0}",
-      configuration));
+      configuration, exclude_node_modules));
   });
 
 RunTarget(target);

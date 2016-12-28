@@ -13,7 +13,15 @@ namespace CakeTest
             var config = new HttpConfiguration();
             config.MapHttpAttributeRoutes();
             builder.UseWebApi(config);
-            builder.UseStaticFiles("/wwwroot");
+            var fileSystem = new PhysicalFileSystem("./wwwroot");
+            var options = new FileServerOptions
+            {
+                FileSystem = fileSystem,
+                EnableDefaultFiles = true,
+                DefaultFilesOptions = { DefaultFileNames = {"site/index.html"}}
+            };
+
+            builder.UseFileServer(options);
         }
     }
 }
