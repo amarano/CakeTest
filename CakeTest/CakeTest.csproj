@@ -86,15 +86,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="wwwroot\package.json" />
-    <Content Include="wwwroot\site\index.html" />
-    <Content Include="wwwroot\tsconfig.json" />
-    <Content Include="wwwroot\typescript\app.main.ts" />
-    <Content Include="wwwroot\typescript\app.module.ts" />
-    <Content Include="wwwroot\typescript\AppComponent.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\site\js" />
+    <Folder Include="wwwroot" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

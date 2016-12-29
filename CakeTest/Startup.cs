@@ -18,7 +18,7 @@ namespace CakeTest
             {
                 FileSystem = fileSystem,
                 EnableDefaultFiles = true,
-                DefaultFilesOptions = { DefaultFileNames = {"site/index.html"}}
+                DefaultFilesOptions = { DefaultFileNames = {"index.html"}}
             };
 
             builder.UseFileServer(options);
